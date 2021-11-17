@@ -1,5 +1,9 @@
 <h1>Profile</h1>
-{{user.username || "Hello starnger!"}}
+{{#if username}}
+{{username}}
+{{else}}
+{{"Hello starnger!"}}
+{{/if}}
 
 <form action="/auth/logout" method="GET">
   <button type="submit">Logout</button>

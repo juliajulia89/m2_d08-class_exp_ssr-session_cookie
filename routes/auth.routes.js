@@ -20,9 +20,13 @@ router.route('/signup')
 		const hashedPwd = bcrypt.hashSync( password , salt )
 
 		User.create({username, password: hashedPwd})
-		.then((req, res)=>res.render("index"))
-		.cath(error=>res.render("signup", {errorMessage: "WTF the DB broke"}))
+		.then((newUser) => {
+			console.log("session: ", req.session)
+			res.render("index")
+		})
+		.catch(error=>res.render("signup", {errorMessage: `WTF the DB broke: ${error}`}))
 	})
+	.catch(console.log)
 });
 
 router.route('/login')
@@ -37,7 +41,7 @@ router.route('/login')
 	.then((user)=>{
 		if(!user) res.render("login", {errorMessage: "User does not exist"})
 		const isPwdCorrect = bcrypt.compareSync(password, user.password) // The  first password is the one form the form, the secodn one is the encrypted one form the DB
-		if(isPwdCorrect) res.render("profile")
+		if(isPwdCorrect) res.render("profile", user)
 		else res.render("login", {errorMessage: "Password incorrect"})
 	})
 	.catch(()=>{})
