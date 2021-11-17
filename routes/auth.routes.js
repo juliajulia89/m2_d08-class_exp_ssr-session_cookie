@@ -41,7 +41,10 @@ router.route('/login')
 	.then((user)=>{
 		if(!user) res.render("login", {errorMessage: "User does not exist"})
 		const isPwdCorrect = bcrypt.compareSync(password, user.password) // The  first password is the one form the form, the secodn one is the encrypted one form the DB
-		if(isPwdCorrect) res.render("profile", user)
+		if(isPwdCorrect) {
+			req.session.loggedInUser = user
+			res.render("profile", user)
+		}
 		else res.render("login", {errorMessage: "Password incorrect"})
 	})
 	.catch(()=>{})

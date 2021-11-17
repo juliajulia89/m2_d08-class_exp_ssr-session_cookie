@@ -27,7 +27,7 @@ module.exports = (app) => {
       cookie:{maxAge: 24 * 60 * 60 * 1000}, // One day of 24 hrs
       store: MongoSessionStore.create({ttl: 24 * 60 * 60, mongoUrl: MONGODB_URI}),
       resave: false,
-      saveUninitialized: false
+      saveUninitialized: true
     }
   ))
 
